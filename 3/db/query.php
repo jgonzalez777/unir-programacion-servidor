@@ -1,0 +1,34 @@
+<?php // Procesamiento fetch_assoc  
+	require_once 'login.php';  
+
+	$conn = new mysqli($hn, $un, $pw, $db); 
+	
+	if ($conn->connect_error) die("Error al conectarse a la Base de Datos: $conn->connect_error");  
+
+	$query  = "SELECT * FROM classics";  
+
+	$result = $conn->query($query);  
+
+	if (!$result) die("Error al recuperar la información de la Bases de Datos");  
+
+	$rows = $result->num_rows;  
+
+	for ($j = 0 ; $j < $rows ; ++$j)  
+	{    
+		$result->data_seek($j);    
+		echo 'Author: '   . $result->fetch_assoc()['author'] . '<br>';
+
+		$result->data_seek($j);    
+		echo 'Title: '    . $result->fetch_assoc()['title']  . '<br>';    
+
+		$result->data_seek($j);    
+		echo 'Category: ' . $result->fetch_assoc()['category'] . '<br>';    
+
+		$result->data_seek($j);    
+		echo 'Year: '     . $result->fetch_assoc()['year']   . '<br>';    
+
+		$result->data_seek($j);    
+		echo 'ISBN: '     . $result->fetch_assoc()['isbn']   . '<br><br>';  
+	}  
+
+	$result->close();  $conn->close();?>
